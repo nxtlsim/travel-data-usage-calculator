@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Travel data usage calculator (rough estimate) | NXTL</title>
+<meta name="description" content="Rough estimate of how much mobile data you'll use while travelling, by activity and hours.">
+<style>body{font-family:system-ui,sans-serif;max-width:640px;margin:2rem auto;padding:0 1rem;color:#0b1f3a}table{width:100%;border-collapse:collapse}td{padding:.4rem 0}input{width:5rem}#out{font-size:1.4rem;font-weight:700;margin:1rem 0}a.cta{display:inline-block;background:#0b1f3a;color:#fff;padding:.7rem 1.1rem;border-radius:6px;text-decoration:none}small{color:#555}</style></head>
+<body><h1>Travel data usage calculator</h1>
+<p>Enter hours per day for each activity and trip length. <strong>This is a rough estimate</strong>; real usage depends on apps, video quality, background sync and network.</p>
+<table id="t"></table>
+<p>Trip days: <input id="days" type="number" min="1" value="7"></p>
+<div id="out"></div>
+<p><small>Assumed rates (MB/hour): maps 10, messaging 5, social browsing 100, web 60, music streaming 70, SD video 700, HD video 2500, video calls 800, email 10. Typical public ballpark figures, not measurements.</small></p>
+<p><a class="cta" href="https://nxtlsim.com/product/global-esim/">Get the NXTL eSIM</a></p>
+<p><small>NXTL: data-only pay-as-you-go eSIM, 180+ countries. See <a href="https://nxtlsim.com/pricing/">pricing</a> and <a href="https://nxtlsim.com/esim-compatible-devices/">compatible devices</a>.</small></p>
+<script>
+const A=[["Maps & navigation",10,1],["Messaging",5,1],["Social media",100,1],["Web browsing",60,1],["Music streaming",70,0],["Video (SD)",700,0],["Video (HD)",2500,0],["Video calls",800,0],["Email",10,0.5]];
+const t=document.getElementById('t');
+A.forEach((a,i)=>{t.insertAdjacentHTML('beforeend',`<tr><td>${a[0]}</td><td><input id="a${i}" type="number" min="0" step="0.5" value="${a[2]}"> h/day</td></tr>`)});
+function calc(){let d=0;A.forEach((a,i)=>d+=a[1]*(+document.getElementById('a'+i).value||0));const days=+document.getElementById('days').value||1,tot=d*days;
+document.getElementById('out').textContent=`≈ ${Math.round(d)} MB/day · ≈ ${tot>=1024?(tot/1024).toFixed(1)+' GB':Math.round(tot)+' MB'} per trip (rough estimate)`}
+document.addEventListener('input',calc);calc();
+</script></body></html>
